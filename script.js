@@ -2,7 +2,7 @@
 //want one gameBoard at an given time
 const gameBoard = (() => {
     //e for empty, x, o
-    const gameboard =['e', 'e', 'e', 'e', 'e', 'e', 'e', 'e', 'e',];
+    const gameboard = ['e', 'e', 'e', 'e', 'e', 'e', 'e', 'e', 'e',];
     const setSquare = (gamePiece) => {
         switch (gamePiece, square) {
             case "x":
@@ -22,7 +22,12 @@ const gameBoard = (() => {
         return gameboard;
     }
     const wonGame = () => {
-        let gameWon = false;
-        if 
+        let winner = ""
+        if (gameboard[0] == 'x') {
+            if (gameboard[1] == 'x' && gameboard[2] == 'x') {
+                return winner;
+            }
+            if (gameboad[3])
+        }
     }
 })();
