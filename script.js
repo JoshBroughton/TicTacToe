@@ -2,9 +2,10 @@
 //want one gameBoard at an given time
 const gameBoard = (() => {
     //e for empty, x, o
-    const gameboard = ['e', 'e', 'e', 'e', 'e', 'e', 'e', 'e', 'e',];
-    const setSquare = (gamePiece) => {
-        switch (gamePiece, square) {
+    let gameboard = ['e', 'e', 'e', 'e', 'e', 'e', 'e', 'e', 'e',];
+    let winTracker = [0, 0, 0, 0, 0, 0, 0, 0]
+    let setSquare = (gamePiece, square) => {
+        switch (gamePiece) {
             case "x":
                 gameboard[square] = "x";
                 break;
@@ -15,19 +16,40 @@ const gameBoard = (() => {
                 gameboard[square] = "e";      
         }
     }
-    const getSquare = (square) => {
+    let getSquare = (square) => {
         return gameboard[square];
     }
-    const getBoard = () => {
+    let getBoard = () => {
         return gameboard;
     }
-    const wonGame = () => {
-        let winner = ""
-        if (gameboard[0] == 'x') {
-            if (gameboard[1] == 'x' && gameboard[2] == 'x') {
-                return winner;
+    //will be called each time a play is made, and track the #
+    //of xs, os, for each row, column, and diagonal
+    let winTracker = (gamePiece, square) => {
+        if (gamePiece == "x") {
+            winTracker[square % 3]++;
+            winTracker[(square % 3) + 3]++;
+            if (square == 0 || square == 4 || square == 8) {
+                winTracker[6]++;
+            } else if (square == 6 || square == 4 || square == 2) {
+                winTracker[7]++;
             }
-            if (gameboad[3])
+        }
+        if (gamePiece == "y") {
+            winTracker[square % 3]--;
+            winTracker[(square % 3) + 3]--;
+            if (square == 0 || square == 4 || square == 8) {
+                winTracker[6]--;
+            } else if (square == 6 || square == 4 || square == 2) {
+                winTracker[7]--;
+            }
         }
     }
+    let winChecker = (item, index, arr) => {
+        if (arr[index] == 3 || arr[index] == -3) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
 })();
