@@ -2,7 +2,7 @@
 //want one gameBoard at an given time
 const gameBoard = (() => {
     //e for empty, x, o
-    let gameboard = ['e', 'e', 'e', 'e', 'e', 'e', 'e', 'e', 'e',];
+    let gameboard = ['', '', '', '', '', '', '', '', '',];
     let winTracker = [0, 0, 0, 0, 0, 0, 0, 0]
     let setSquare = (gamePiece, square) => {
         switch (gamePiece) {
@@ -13,7 +13,7 @@ const gameBoard = (() => {
                 gameboard[square] = "o";
                 break;
             default:
-                gameboard[square] = "e";      
+                gameboard[square] = "";      
         }
     }
     let getSquare = (square) => {
@@ -24,7 +24,7 @@ const gameBoard = (() => {
     }
     //will be called each time a play is made, and track the #
     //of xs, os, for each row, column, and diagonal
-    let winTracker = (gamePiece, square) => {
+    let winTrack = (gamePiece, square) => {
         if (gamePiece == "x") {
             winTracker[square % 3]++;
             winTracker[(square % 3) + 3]++;
@@ -52,4 +52,12 @@ const gameBoard = (() => {
         }
     }
     
+    let displayBoard = (square, piece) => {
+        document.getElementById("square" + square).innerHTML = piece;
+    }
+    /*let initialBoard = (item, index, arr) => {
+        displayBoard(index, item)
+    }
+    
+    gameboard.forEach(initialBoard); may not be needed*/
 })();
