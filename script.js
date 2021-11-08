@@ -1,6 +1,6 @@
 //gameBoard object created with a module pattern, as we only
 //want one gameBoard at an given time
-const gameBoard = (() => {
+let gameBoard = (() => {
     //e for empty, x, o
     let gameboard = ['', '', '', '', '', '', '', '', '',];
     let winTracker = [0, 0, 0, 0, 0, 0, 0, 0]
@@ -27,14 +27,14 @@ const gameBoard = (() => {
     let winTrack = (gamePiece, square) => {
         if (gamePiece == "x") {
             winTracker[square % 3]++;
-            winTracker[(square % 3) + 3]++;
+            winTracker[(square % 3) + 3]++;           
             if (square == 0 || square == 4 || square == 8) {
                 winTracker[6]++;
             } else if (square == 6 || square == 4 || square == 2) {
                 winTracker[7]++;
             }
         }
-        if (gamePiece == "y") {
+        if (gamePiece == "0") {
             winTracker[square % 3]--;
             winTracker[(square % 3) + 3]--;
             if (square == 0 || square == 4 || square == 8) {
@@ -61,3 +61,33 @@ const gameBoard = (() => {
     
     gameboard.forEach(initialBoard); may not be needed*/
 })();
+
+//player object created with factory function as we want two
+let Player = (name, piece) => {
+    let wins = 0;
+    let getWins = () => wins;
+    let won = () => wins++;
+    let getName = () => name;
+    let getPiece = () => piece;
+    return {getWins, won, getName, getPiece}
+};
+
+let gameDriver = (() => {
+    let player1 = Player("player1", "o");
+    console.log(player1.getPiece());
+    let player2 = Player("player2", "o");
+    let player1First = Math.random() < 0.5;
+    gameOver = false;
+    buttonList = document.querySelectorAll("button");
+    let playRound = (element) => {
+        do {
+            if (true) {
+                player1First = !player1First;
+                element.innerHTML = player1.getPiece();
+                gameOver = true;
+            }
+        } while(!gameOver)
+    }
+    buttonList.forEach(element => element.addEventListener("click", playRound(element)))
+    
+})()
