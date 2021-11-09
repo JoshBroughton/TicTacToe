@@ -75,19 +75,22 @@ let Player = (name, piece) => {
 let gameDriver = (() => {
     let player1 = Player("player1", "o");
     console.log(player1.getPiece());
-    let player2 = Player("player2", "o");
+    let player2 = Player("player2", "x");
     let player1First = Math.random() < 0.5;
     gameOver = false;
     buttonList = document.querySelectorAll("button");
     let playRound = (element) => {
-        do {
-            if (true) {
-                player1First = !player1First;
-                element.innerHTML = player1.getPiece();
-                gameOver = true;
-            }
-        } while(!gameOver)
+        if (player1First) {
+            player1First = !player1First;
+            element.innerHTML = player1.getPiece();
+            gameOver = true;
+        } else {
+            player1First = !player1First
+            element.innerHTML = player2.getPiece();
+        }
+        
     }
-    buttonList.forEach(element => element.addEventListener("click", playRound(element)))
+    buttonList.forEach(element => element.addEventListener("click", function(){
+        playRound(element)}));
     
 })()
