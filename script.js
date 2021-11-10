@@ -63,13 +63,15 @@ let gameBoard = (() => {
         }
     }
     let winChecker = (winTracker) => {
-        winTracker.forEach(element => {
+        let output = 2;
+        winTracker.forEach((element) => {
             if (element == 3) {
-                player1.won();
+                output = 0;
             } else if (element == -3) {
-                player2.won();
+                output = 1;
             }
         })
+        return output;
     }
     
     let displayBoard = (square, piece) => {
@@ -97,10 +99,10 @@ let gameBoard = (() => {
 //player object created with factory function as we want two
 let Player = (name, piece) => {
     let wins = 0;
-    let getWins = () => wins;
-    let won = () => wins++;
-    let getName = () => name;
-    let getPiece = () => piece;
+    let getWins = () => {return wins;}
+    let won = () => {wins++};
+    let getName = () => {return name;}
+    let getPiece = () => {return piece;}
     return {getWins, won, getName, getPiece}
 };
 
@@ -117,17 +119,24 @@ let gameDriver = (() => {
             player1First = !player1First;
             element.innerHTML = player1.getPiece();
             gameBoard.winTrack(player1.getPiece(), element.id);
-            gameBoard.winChecker(gameBoard.getWinTracker());
+            if (gameBoard.winChecker(gameBoard.getWinTracker()) == 0) {
+                player1.won();
+                //reset board method
+            }
             console.log(gameBoard.getWinTracker());
         } else {
             player1First = !player1First
             element.innerHTML = player2.getPiece();
             gameBoard.winTrack(player2.getPiece(), element.id);
-            gameBoard.winChecker(gameBoard.getWinTracker());
+            if (gameBoard.winChecker(gameBoard.getWinTracker()) == 1) {
+                player2.won();
+                //reset board method
+            }
             console.log(gameBoard.getWinTracker());
         }
     }
     
     buttonList.forEach(element => element.addEventListener("click", function(){
         playRound(element)}));
+    return {player1, player2};
 })()
