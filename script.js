@@ -2,58 +2,90 @@
 //want one gameBoard at an given time
 let gameBoard = (() => {
     //e for empty, x, o
-    let gameboard = ['', '', '', '', '', '', '', '', '',];
-    let winTracker = [0, 0, 0, 0, 0, 0, 0, 0]
+    let board = ['', '', '', '', '', '', '', '', '',];
+    let winTracker = [0, 0, 0, 0, 0, 0, 0, 0];
     let setSquare = (gamePiece, square) => {
         switch (gamePiece) {
             case "x":
-                gameboard[square] = "x";
+                board[square] = "x";
                 break;
             case "o":
-                gameboard[square] = "o";
+                board[square] = "o";
                 break;
             default:
-                gameboard[square] = "";      
+                board[square] = "";      
         }
     }
     let getSquare = (square) => {
-        return gameboard[square];
+        return board[square];
     }
     let getBoard = () => {
-        return gameboard;
+        return board;
     }
     //will be called each time a play is made, and track the #
     //of xs, os, for each row, column, and diagonal
     let winTrack = (gamePiece, square) => {
         if (gamePiece == "x") {
             winTracker[square % 3]++;
-            winTracker[(square % 3) + 3]++;           
-            if (square == 0 || square == 4 || square == 8) {
+            if (square < 3) {
+                winTracker[3]++;
+            } else if (2 < square < 6) {
+                winTracker[4]++;
+            } else if (5 < square < 9) {
+                winTracker[5]++;
+            }        
+            if (square == 0 || square == 8) {
                 winTracker[6]++;
-            } else if (square == 6 || square == 4 || square == 2) {
+            } else if (square == 6 || square == 2) {
+                winTracker[7]++;
+            } else if (square == 4) {
+                winTracker[6]++;
                 winTracker[7]++;
             }
         }
-        if (gamePiece == "0") {
+        if (gamePiece == "o") {
             winTracker[square % 3]--;
-            winTracker[(square % 3) + 3]--;
-            if (square == 0 || square == 4 || square == 8) {
+            if (square < 3) {
+                winTracker[3]--;
+            } else if (2 < square < 6) {
+                winTracker[4]--;
+            } else if (5 < square < 9) {
+                winTracker[5]--;
+            }        
+            if (square == 0 || square == 8) {
                 winTracker[6]--;
-            } else if (square == 6 || square == 4 || square == 2) {
+            } else if (square == 6 || square == 2) {
+                winTracker[7]--;
+            } else if (square == 4) {
+                winTracker[6]--;
                 winTracker[7]--;
             }
         }
     }
-    let winChecker = (item, index, arr) => {
-        if (arr[index] == 3 || arr[index] == -3) {
-            return true;
-        } else {
-            return false;
-        }
+    let winChecker = (winTracker) => {
+        winTracker.forEach(element => {
+            if (element == 3) {
+                player1.won();
+            } else if (element == -3) {
+                player2.won();
+            }
+        })
     }
     
     let displayBoard = (square, piece) => {
         document.getElementById("square" + square).innerHTML = piece;
+    }
+    let getWinTracker = () => {
+        return winTracker;
+    }
+    return {
+        setSquare,
+        getSquare,
+        getBoard,
+        winTrack,
+        winChecker,
+        displayBoard,
+        getWinTracker,
     }
     /*let initialBoard = (item, index, arr) => {
         displayBoard(index, item)
@@ -73,24 +105,29 @@ let Player = (name, piece) => {
 };
 
 let gameDriver = (() => {
-    let player1 = Player("player1", "o");
+    let player1 = Player("player1", "x");
     console.log(player1.getPiece());
-    let player2 = Player("player2", "x");
+    let player2 = Player("player2", "o");
     let player1First = Math.random() < 0.5;
-    gameOver = false;
+    let gameOver = false;
+    let turnTracker = 0;
     buttonList = document.querySelectorAll("button");
     let playRound = (element) => {
         if (player1First) {
             player1First = !player1First;
             element.innerHTML = player1.getPiece();
-            gameOver = true;
+            gameBoard.winTrack(player1.getPiece(), element.id);
+            gameBoard.winChecker(gameBoard.getWinTracker());
+            console.log(gameBoard.getWinTracker());
         } else {
             player1First = !player1First
             element.innerHTML = player2.getPiece();
+            gameBoard.winTrack(player2.getPiece(), element.id);
+            gameBoard.winChecker(gameBoard.getWinTracker());
+            console.log(gameBoard.getWinTracker());
         }
-        
     }
+    
     buttonList.forEach(element => element.addEventListener("click", function(){
         playRound(element)}));
-    
 })()
