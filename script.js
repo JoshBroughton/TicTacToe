@@ -29,9 +29,9 @@ let gameBoard = (() => {
             winTracker[square % 3]++;
             if (square < 3) {
                 winTracker[3]++;
-            } else if (2 < square < 6) {
+            } else if (square > 2 && square < 6) {
                 winTracker[4]++;
-            } else if (5 < square < 9) {
+            } else if (square > 5 && square < 9) {
                 winTracker[5]++;
             }        
             if (square == 0 || square == 8) {
@@ -47,9 +47,9 @@ let gameBoard = (() => {
             winTracker[square % 3]--;
             if (square < 3) {
                 winTracker[3]--;
-            } else if (2 < square < 6) {
+            } else if (square > 2 && square < 6) {
                 winTracker[4]--;
-            } else if (5 < square < 9) {
+            } else if (square > 5 && square < 9) {
                 winTracker[5]--;
             }        
             if (square == 0 || square == 8) {
@@ -80,6 +80,9 @@ let gameBoard = (() => {
     let getWinTracker = () => {
         return winTracker;
     }
+    let reset = () => {
+        winTracker = [0, 0, 0, 0, 0, 0, 0, 0];
+    }
     return {
         setSquare,
         getSquare,
@@ -88,6 +91,7 @@ let gameBoard = (() => {
         winChecker,
         displayBoard,
         getWinTracker,
+        reset,
     }
     /*let initialBoard = (item, index, arr) => {
         displayBoard(index, item)
@@ -108,31 +112,39 @@ let Player = (name, piece) => {
 
 let gameDriver = (() => {
     let player1 = Player("player1", "x");
-    console.log(player1.getPiece());
     let player2 = Player("player2", "o");
     let player1First = Math.random() < 0.5;
     let gameOver = false;
     let turnTracker = 0;
     buttonList = document.querySelectorAll("button");
     let playRound = (element) => {
-        if (player1First) {
+        if (player1First && element.innerHTML == "") {
             player1First = !player1First;
             element.innerHTML = player1.getPiece();
             gameBoard.winTrack(player1.getPiece(), element.id);
+            turnTracker++;
             if (gameBoard.winChecker(gameBoard.getWinTracker()) == 0) {
                 player1.won();
-                //reset board method
+                buttonList.forEach(element => element.innerHTML = "");
+                gameBoard.reset();
+                turnTracker = 0;
             }
-            console.log(gameBoard.getWinTracker());
-        } else {
+        } else if (!player1First && element.innerHTML == "") {
             player1First = !player1First
             element.innerHTML = player2.getPiece();
             gameBoard.winTrack(player2.getPiece(), element.id);
+            turnTracker++;
             if (gameBoard.winChecker(gameBoard.getWinTracker()) == 1) {
                 player2.won();
-                //reset board method
+                buttonList.forEach(element => element.innerHTML = "");
+                gameBoard.reset();
+                turnTracker = 0;
             }
-            console.log(gameBoard.getWinTracker());
+        }
+        if (turnTracker == 9) {
+            buttonList.forEach(element => element.innerHTML = "");
+            gameBoard.reset();
+            turnTracker = 0;
         }
     }
     
