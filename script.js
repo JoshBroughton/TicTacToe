@@ -116,7 +116,7 @@ let gameDriver = (() => {
     let player1First = Math.random() < 0.5;
     let gameOver = false;
     let turnTracker = 0;
-    buttonList = document.querySelectorAll("button");
+    buttonList = document.querySelectorAll(".grid-item");
     let playRound = (element) => {
         if (player1First && element.innerHTML == "") {
             player1First = !player1First;

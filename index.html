@@ -19,10 +19,28 @@
                 <button type="button" id="6" class="grid-item"></button>
                 <button type="button" id="7" class="grid-item"></button>
                 <button type="button" id="8" class="grid-item"></button>
-                <h1 class="score">5</h1>
+                <h1 id="player1" class="score"></h1>
                 <button type="resetButton" id="reset" class="reset">Reset Game</button>
-                <h1 class="score">6</h1>
+                <h1 id="player2" class="score"></h1>
             </div>
+        </div>
+        <div id="splashPage" class="overlay">
+            <button id="splashButton" type="overButton" class="closebtn">&times;</button>
+
+            <div class="overlay-content">
+                
+                <form>
+                    <label for="player1">Player One Name:</label><br>
+                    <input type="text" id="player1" name="player1"><br>
+                    <label for="player2">Player Two Name:</label><br>
+                    <input type="text" id="player2" name="player2"><br>
+                </form>
+            </div>
+        </div>
+        <div id="gameWon" class="overlay">
+            <button id="wonButton" type="overButton" class="closebtn">&times;</button>
+            <h1 id="message">Message here</h1>
+
         </div>
     </body>
     <script src="script.js"></script>
