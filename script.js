@@ -111,8 +111,18 @@ let Player = (name, piece) => {
 };
 
 let gameDriver = (() => {
-    let player1 = Player("player1", "x");
-    let player2 = Player("player2", "o");
+    name1 = "";
+    name2 = "";
+    nameButton = document.getElementById("formbutton");
+    let formSubmit = () => {
+        let form1 = document.getElementById("player1");
+        let form2 = document.getElementById("player2");
+        name1 = form1.value;
+        name2 = form2.value;
+    }
+    nameButton.addEventListener("click", formSubmit);
+    let player1 = Player(name1, "x");
+    let player2 = Player(name2, "o");
     let player1First = Math.random() < 0.5;
     let gameOver = false;
     let turnTracker = 0;
