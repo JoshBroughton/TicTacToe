@@ -156,7 +156,8 @@ let gameDriver = (() => {
             turnTracker = 0;
         }
     }
-    
+    //TODO: sort out logic for playing multiple games/tracking score
+    //remove exit button on splash page
     buttonList.forEach(element => element.addEventListener("click", function(){
         playRound(element)}));    
 })()

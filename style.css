@@ -107,6 +107,8 @@ input {
   box-sizing: border-box;
   font-family: 'Courier New', Courier, monospace;
   font-size: 40px;
+  border-width: 10px;
+  border-color: black;
 }
 
 .formbutton {
@@ -114,6 +116,14 @@ input {
   font-family: 'Courier New', Courier, monospace;
   font-size: 40px;
   color: rgb(255, 238, 0);
+  background-color: black;
+  border-width: 5px;
+  border-color: black;
+  padding: 8px;
+}
+
+.formbutton:hover {
+  transform: scale(1.03);
 }
 
 #splashPage {
