@@ -137,6 +137,10 @@ let gameDriver = (() => {
                 buttonList.forEach(element => element.innerHTML = "");
                 gameBoard.reset();
                 turnTracker = 0;
+                document.getElementById("message").innerText = player1.getName() + " won!" +
+                " The score is:\n" + player1.getWins() + " for " + player1.getName() + "\n" +
+                player2.getWins() + " for " + player2.getName();
+                document.getElementById("gameWon").style.display = "block";
             }
         } else if (!player1First && element.innerHTML == "") {
             player1First = !player1First
@@ -148,16 +152,32 @@ let gameDriver = (() => {
                 buttonList.forEach(element => element.innerHTML = "");
                 gameBoard.reset();
                 turnTracker = 0;
+                document.getElementById("message").innerText = player2.getName() + " won!" +
+                " The score is:\n" + player1.getWins() + " for " + player1.getName() + "\n" +
+                player2.getWins() + " for " + player2.getName();
+                document.getElementById("gameWon").style.display = "block";
             }
         }
         if (turnTracker == 9) {
-            buttonList.forEach(element => element.innerHTML = "");
-            gameBoard.reset();
-            turnTracker = 0;
+            newGame();
+            document.getElementById("message").innerText = "It's a tie!" +
+            " The score is:\n" + player2.getWins() + " for " + player2.getName() + "\n" +
+            player1.getWins() + " for " + player1.getName();
         }
     }
-    //TODO: sort out logic for playing multiple games/tracking score
-    //remove exit button on splash page
+    document.getElementById("wonButton").addEventListener("click", () => {
+        document.getElementById("gameWon").style.display = "none";
+    })
+    document.getElementById("reset").addEventListener("click", newGame);
+    function newGame() {
+        buttonList.forEach(element => element.innerHTML = "");
+        gameBoard.reset();
+        document.getElementById("message").innerText = "Gameboard reset!" +
+        " The score is:\n" + player1.getWins() + " for " + player1.getName() + "\n" +
+        player2.getWins() + " for " + player2.getName();
+        document.getElementById("gameWon").style.display = "block"
+        turnTracker = 0;
+    }
     buttonList.forEach(element => element.addEventListener("click", function(){
         playRound(element)}));    
 })()
